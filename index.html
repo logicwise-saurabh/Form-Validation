@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <script src="form.js"></script>
+</head>
+
+<body>
+
+
+
+    <form action="" name="myform" id="reg-form" onclick="">
+        <label for="name">Enter your name :</label>
+        <input type="text" id="user-name" onblur="validateUserName()">
+        <span id="name-error"></span>
+
+        <br>
+
+        <label for="age">Enter your age :</label>
+        <input type="number" id="user-age" onblur="ageValidation()">
+        <span id="age-error"></span>
+
+
+        <br>
+
+        <label for="name">Choose your gender :</label>
+
+        <select name="gender" id="user-gender" value="choose gender" onblur="dropDown()">
+            <option value="Choosegender" selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>Select gender
+            <option value="other">other</option>
+        </select>
+        <span id="gender-error"></span>
+        <!-- <label for="male">Male</label>
+        <input type="radio" id="male" value="male">
+        <label for="female">Female</label>
+        <input type="radio" id="male" value="male"> -->
+
+        <br>
+
+        <label for="contact-number">Enter contact number</label>
+        <input type="tel" name="contact" id="contact-number" onblur="contactNumberValidation()">
+        <span id="contact-error"></span>
+
+
+        <br>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email-id" onblur="emailValidation()">
+        <span id="email-error"></span>
+
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="user-password" onblur="passValidation()">
+        <span id="pass-error"></span>
+        <br>
+        <label for="confrim-password"> Confirm Password</label>
+        <input type="password" name="password" id="user-confirm-password" onblur="confirmPassValidation()">
+        <span id="pass-not-match"></span>
+        <br>
+
+        <label for="High-school">High School</label>
+        <input type="text" name="" id="school-name" onblur="schoolNamevalidation()">
+        <span id="school-error"></span><br><br>
+
+        <label for="High-school-cgpa">Choose your Cgpa</label>
+
+        <input type="range" value="0" min="0" max="10" id="High-school-cgpa" oninput="cgpaShowing()">
+        <span id="rangeCgpaValue"></span>
+        <span id="cgpa-error"></span>
+        <br>
+
+        <!-- <input type="checkbox" id="agree" onblur="checkBox()" onchange="checkBox()" 
+
+        <label for="agree" id="agreecheck"> </label> -->
+
+        <input type="button" id="btn-reset" value="Reset" onclick="formReset()">
+        <button type="reset" disabled id="submit-btn" onclick="addToTable(),toSaveLocalStorage()">Submit</button>
+
+
+    </form>
+
+    <table id="user-table">
+        <tr style="border: 1px black solid;">
+            <th>Name</th>
+            <th>age</th>
+            <th>gender</th>
+            <th>contact Number</th>
+            <th>Email</th>
+            <th>School Name</th>
+            <th>CGPA</th>
+        </tr>
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+
+    <button onclick="toSaveLocalStorage()">Click</button>
+    <button onclick="toSaveDefoultData()">Click</button>
+
+
+    <script>
+        window.onload(pageLoad())
+    </script>
+
+
+</body>
+
+</html>
