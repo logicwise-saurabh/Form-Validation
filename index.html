@@ -35,10 +35,7 @@
             <option value="other">other</option>
         </select>
         <span id="gender-error"></span>
-        <!-- <label for="male">Male</label>
-        <input type="radio" id="male" value="male">
-        <label for="female">Female</label>
-        <input type="radio" id="male" value="male"> -->
+
 
         <br>
 
@@ -50,12 +47,12 @@
         <br>
 
         <label for="email">Email</label>
-        <input type="email" name="email" id="email-id" onblur="emailValidation()">
+        <input type="email" name="email" id="email-id" onkeyup="isDuplicateEmail()" onblur="emailValidation()">
         <span id="email-error"></span>
 
         <br>
         <label for="password">Password</label>
-        <input type="password" name="password" id="user-password" onblur="passValidation()">
+        <input type="password" name="password" id="user-password" placeholder="Password" onblur="passValidation()">
         <span id="pass-error"></span>
         <br>
         <label for="confrim-password"> Confirm Password</label>
@@ -74,12 +71,40 @@
         <span id="cgpa-error"></span>
         <br>
 
+        <label>Primary Language:</label><br>
+        <input type="radio" id="lang-en" name="primaryLanguage" value="English" onchange="validatePrimaryLanguage()">
+        English
+        <input type="radio" id="lang-hi" name="primaryLanguage" value="Hindi" onchange="validatePrimaryLanguage()">
+        Hindi
+        <input type="radio" id="lang-gu" name="primaryLanguage" value="Gujarati" onchange="validatePrimaryLanguage()">
+        Gujarati
+        <span id="primary-lang-error"></span><br>
+        <br><br>
+
+
+        <label>Languages Known:</label><br>
+        <input type="checkbox" id="chk-en" value="English" name="languagesKnown" onchange="validateLanguagesKnown()">
+        English
+        <input type="checkbox" id="chk-hi" value="Hindi" name="languagesKnown" onchange="validateLanguagesKnown()">
+        Hindi
+        <input type="checkbox" id="chk-gu" value="Gujarati" name="languagesKnown" onchange="validateLanguagesKnown()">
+        Gujarati
+        <input type="checkbox" id="chk-mr" value="Marathi" name="languagesKnown" onchange="validateLanguagesKnown()">
+        Marathi
+        <span id="languages-error"></span>
+
+        <br><br>
+
+        <!-- <button type="button" onclick="saveLanguages()">Save</button> -->
+
+
+
         <!-- <input type="checkbox" id="agree" onblur="checkBox()" onchange="checkBox()" 
 
         <label for="agree" id="agreecheck"> </label> -->
 
         <input type="button" id="btn-reset" value="Reset" onclick="formReset()">
-        <button type="reset" disabled id="submit-btn" onclick="addToTable(),toSaveLocalStorage()">Submit</button>
+        <button type="reset" disabled id="submit-btn" onclick="toSaveLocalStorage()">Submit</button>
 
 
     </form>
@@ -93,6 +118,9 @@
             <th>Email</th>
             <th>School Name</th>
             <th>CGPA</th>
+            <th>Priamry Language</th>
+            <th>Known Language</th>
+            <th>Action</th>
         </tr>
         <tbody>
 
@@ -101,12 +129,15 @@
     </table>
 
 
-    <button onclick="toSaveLocalStorage()">Click</button>
-    <button onclick="toSaveDefoultData()">Click</button>
+    <!-- <button onclick="toSaveLocalStorage()">Click</button>
+    <button onclick="toSaveDefoultData()">Shave Defoult data</button>
+    <button onclick="isDuplicateEmail()">Show user</button>
+    <p id="showuser"></p> -->
 
 
     <script>
         window.onload(pageLoad())
+
     </script>
 
 
