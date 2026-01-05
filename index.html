@@ -8,19 +8,19 @@
     <script src="form.js"></script>
 </head>
 
-<body>
+<body onload="toSaveDefoultData()">
 
 
 
-    <form action="" name="myform" id="reg-form" onclick="">
+    <form action="" name=" myform" id="reg-form" onclick="">
         <label for="name">Enter your name :</label>
-        <input type="text" id="user-name" onblur="validateUserName()">
+        <input type="text" id="user-name" oninput="setFormChanged()" onblur="validateUserName()">
         <span id="name-error"></span>
 
         <br>
 
         <label for="age">Enter your age :</label>
-        <input type="number" id="user-age" onblur="ageValidation()">
+        <input type="number" id="user-age" oninput="setFormChanged()" onblur="ageValidation()">
         <span id="age-error"></span>
 
 
@@ -28,7 +28,7 @@
 
         <label for="name">Choose your gender :</label>
 
-        <select name="gender" id="user-gender" value="choose gender" onblur="dropDown()">
+        <select name="gender" id="user-gender" value="choose gender" oninput="setFormChanged()" onblur="dropDown()">
             <option value="Choosegender" selected>Select gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>Select gender
@@ -40,14 +40,16 @@
         <br>
 
         <label for="contact-number">Enter contact number</label>
-        <input type="tel" name="contact" id="contact-number" onblur="contactNumberValidation()">
+        <input type="tel" name="contact" id="contact-number" oninput="setFormChanged()"
+            onblur="contactNumberValidation()">
         <span id="contact-error"></span>
 
 
         <br>
 
         <label for="email">Email</label>
-        <input type="email" name="email" id="email-id" onkeyup="isDuplicateEmail()" onblur="emailValidation()">
+        <input type="email" name="email" id="email-id" oninput="setFormChanged()" onkeyup="isDuplicateEmail()"
+            onblur="emailValidation()">
         <span id="email-error"></span>
 
         <br>
@@ -61,35 +63,43 @@
         <br>
 
         <label for="High-school">High School</label>
-        <input type="text" name="" id="school-name" onblur="schoolNamevalidation()">
+        <input type="text" name="" id="school-name" oninput="setFormChanged()" onblur="schoolNamevalidation()">
         <span id="school-error"></span><br><br>
 
         <label for="High-school-cgpa">Choose your Cgpa</label>
 
-        <input type="range" value="0" min="0" max="10" id="High-school-cgpa" oninput="cgpaShowing()">
+        <input type="range" value="0" min="0" max="10" id="High-school-cgpa" oninput="setFormChanged()"
+            oninput="cgpaShowing()">
         <span id="rangeCgpaValue"></span>
         <span id="cgpa-error"></span>
         <br>
 
         <label>Primary Language:</label><br>
-        <input type="radio" id="lang-en" name="primaryLanguage" value="English" onchange="validatePrimaryLanguage()">
+        <input type="radio" id="lang-en" name="primaryLanguage" value="English" oninput="setFormChanged()"
+            onchange="validatePrimaryLanguage()">
         English
-        <input type="radio" id="lang-hi" name="primaryLanguage" value="Hindi" onchange="validatePrimaryLanguage()">
+        <input type="radio" id="lang-hi" name="primaryLanguage" value="Hindi" oninput="setFormChanged()"
+            onchange="validatePrimaryLanguage()">
         Hindi
-        <input type="radio" id="lang-gu" name="primaryLanguage" value="Gujarati" onchange="validatePrimaryLanguage()">
+        <input type="radio" id="lang-gu" name="primaryLanguage" value="Gujarati" oninput="setFormChanged()"
+            onchange="validatePrimaryLanguage()">
         Gujarati
         <span id="primary-lang-error"></span><br>
         <br><br>
 
 
         <label>Languages Known:</label><br>
-        <input type="checkbox" id="chk-en" value="English" name="languagesKnown" onchange="validateLanguagesKnown()">
+        <input type="checkbox" id="chk-en" value="English" name="languagesKnown" oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()">
         English
-        <input type="checkbox" id="chk-hi" value="Hindi" name="languagesKnown" onchange="validateLanguagesKnown()">
+        <input type="checkbox" id="chk-hi" value="Hindi" name="languagesKnown" oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()">
         Hindi
-        <input type="checkbox" id="chk-gu" value="Gujarati" name="languagesKnown" onchange="validateLanguagesKnown()">
+        <input type="checkbox" id="chk-gu" value="Gujarati" name="languagesKnown" oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()">
         Gujarati
-        <input type="checkbox" id="chk-mr" value="Marathi" name="languagesKnown" onchange="validateLanguagesKnown()">
+        <input type="checkbox" id="chk-mr" value="Marathi" name="languagesKnown" oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()">
         Marathi
         <span id="languages-error"></span>
 
@@ -103,8 +113,8 @@
 
         <label for="agree" id="agreecheck"> </label> -->
 
-        <input type="button" id="btn-reset" value="Reset" onclick="formReset()">
-        <button type="reset" disabled id="submit-btn" onclick="toSaveLocalStorage()">Submit</button>
+        <input type="reset" id="btn-reset" value="Reset" onclick="formReset()">
+        <button type="submit" disabled id="submit-btn" onclick="toSaveLocalStorage()">Submit</button>
 
 
     </form>
@@ -127,6 +137,13 @@
         </tbody>
 
     </table>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
 
 
     <!-- <button onclick="toSaveLocalStorage()">Click</button>
@@ -136,7 +153,7 @@
 
 
     <script>
-        window.onload(pageLoad())
+        // window.onload(pageLoad(), toSaveDefoultData())
 
     </script>
 

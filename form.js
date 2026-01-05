@@ -45,8 +45,13 @@ function validateUserName() {
     const nameError = document.getElementById("name-error");
     const userNamepatern = /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/
     userFormValidation()
+    if (userName === "") {
+        nameError.textContent = "Name is required"
+        return false
+
+    }
     if (!userNamepatern.test(userName)) {
-        nameError.textContent = "Name is required";
+        nameError.textContent = "Enter Valid Name";
         return false;
     } else {
         nameError.textContent = "";
@@ -56,13 +61,18 @@ function validateUserName() {
 }
 
 function emailValidation() {
-    const userEmail = document.getElementById("email-id");
+    const userEmail = document.getElementById("email-id").value.trim();
     const emailError = document.getElementById("email-error");
     userFormValidation()
 
-    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
 
-    if (!regexEmail.test(userEmail.value)) {
+    if (userEmail === "") {
+        emailError.textContent = "Email is required"
+        return false
+    }
+    if (!regexEmail.test(userEmail)) {
         emailError.textContent = "Enter valid email"
         return false;
     }
@@ -73,6 +83,7 @@ function emailValidation() {
     }
 
     emailError.textContent = "";
+    console.log("email true")
     return true;
 
 }
@@ -85,7 +96,10 @@ function contactNumberValidation() {
     const contactError = document.getElementById("contact-error");
     userFormValidation()
     const contactRegex = /^\d{10}$/
-
+    if (contactNumber.value.trim() === "") {
+        contactError.textContent = "Contact Number is required"
+        return false
+    }
     if (!contactRegex.test(contactNumber.value)) {
         contactError.textContent = "Enter valid Mobile Number"
         return false;
@@ -101,10 +115,15 @@ function contactNumberValidation() {
 
 
 function schoolNamevalidation() {
-    const schoolName = document.getElementById("school-name");
+    const schoolName = document.getElementById("school-name").value.trim();
     const schoolNameError = document.getElementById("school-error");
     userFormValidation()
     const schoolpatern = /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/
+    if (schoolName === "") {
+        schoolNameError.textContent = "School Name is required"
+        return false
+
+    }
     if (!schoolpatern.test(schoolName.value)) {
         schoolNameError.textContent = "Enter Valid School Name"
         return false;
@@ -146,6 +165,11 @@ function ageValidation() {
     userFormValidation()
 
     const numberPattern = /^(1[0-1][0-9]|120|[1-9][0-9]?)$/
+    if (userAge.value.trim() === "") {
+        ageError.textContent = "Age is required"
+        // console.log("Age not selected")
+        return false
+    }
     if (!numberPattern.test(userAge.value)) {
         ageError.textContent = "Enter valid age"
         return false;
@@ -163,6 +187,11 @@ function passValidation() {
     userFormValidation()
 
     const passregex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/
+
+    if (userPassword === "") {
+        passError.textContent = "Password is required"
+        return false
+    }
     if (!passregex.test(userPassword)) {
         passError.textContent = `At least one uppercase letter (A-Z).
                 At least one lowercase letter (a-z).
@@ -182,7 +211,10 @@ function confirmPassValidation() {
     const confirmPass = document.getElementById("user-confirm-password").value;
     const passNotMatch = document.getElementById("pass-not-match")
     userFormValidation()
-
+    if (confirmPass === "") {
+        passNotMatch.textContent = "Confirm Password is required"
+        return false
+    }
     if (userPassword === confirmPass) {
         passNotMatch.textContent = "Password Matched"
         return true
@@ -193,6 +225,77 @@ function confirmPassValidation() {
     }
 
 }
+// function formResetOnLoad(event) {
+
+//     const userform = document.getElementById("reg-form")
+//     const text = confirm("The form is being reset.");
+
+
+//     if (text) {
+//         text = "Form Cleared!";
+//         userform.reset()
+//         console.log("form reset")
+
+//     } else {
+//         event.preventDefault();
+//         event.returnValue = '';
+
+//     }
+// }
+
+document.getElementById("reg-form").addEventListener("input", function handler(e) {
+    // Run only once when the user starts editing
+    formResetOnLoad(e);
+    // Remove listener so it doesn't trigger repeatedly
+    e.currentTarget.removeEventListener("input", handler);
+})
+function formResetOnLoad(event) {
+    const userform = document.getElementById("reg-form");
+    const confirmReset = confirm("The form is being reset. Continue?");
+
+    if (confirmReset) {
+        userform.reset();
+        console.log("Form reset");
+    } else {
+        console.log("Form not reset");
+        // Prevent page unload if user cancels
+        event.preventDefault();
+        event.returnValue = ''; // Required for Chrome
+    }
+}
+
+
+// window.addEventListener("beforeunload", formResetOnLoad);
+
+
+
+// let formChanged = false;
+
+// // Function to mark the form as changed when the user types
+// function setFormChanged() {
+//     formChanged = true;
+// }
+
+// // Function to reset the form status when submitted (preventing the alert)
+// document.getElementById('reg-form').addEventListener('submit', function () {
+//     formChanged = false;
+// });
+
+// // Add the beforeunload event listener to the window
+// window.addEventListener('beforeunload', function (e) {
+//     if (formChanged) {
+//         // Cancel the event and trigger the default browser confirmation dialog
+//         e.preventDefault();
+
+//         // The following line is for compatibility with older browsers. 
+//         // Modern browsers ignore the custom message and show a generic one.
+//         e.returnValue = '';
+//     }
+// });
+
+
+
+
 
 function formReset() {
     const userform = document.getElementById("reg-form")
@@ -203,6 +306,9 @@ function formReset() {
         text = "Form Cleared!";
         //document.getElementById("myForm").reset();
         userform.reset()
+        // Reloads the current page
+        // window.location.reload();
+
 
         console.log("form reset")
 
@@ -376,9 +482,20 @@ function toSaveLocalStorage() {
     localStorage.setItem("users", JSON.stringify(users));
     console.log("User saved");
     console.log(newUser.userName)
+    addCurrentRow()
 
-    // newUser.forEach(users => addRow(users));
 
+
+}
+
+function addCurrentRow() {
+
+
+    const storedData = JSON.parse(localStorage.getItem("users")) || [];
+    if (storedData.length > 0) {
+        const lastIndex = storedData.length - 1;
+        addRow(storedData[lastIndex]);
+    }
 
 }
 function toSaveDefoultData() {
@@ -423,13 +540,17 @@ function toSaveDefoultData() {
 
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
-    if (!Array.isArray(users)) {
-        users = [];
+    if (users.length < 3) {
+        if (!Array.isArray(users)) {
+            users = [];
+        }
+        users.push(user1);
+        users.push(user2);
+        users.push(user3);
+        localStorage.setItem("users", JSON.stringify(users));
     }
-    users.push(user1);
-    users.push(user2);
-    users.push(user3);
-    localStorage.setItem("users", JSON.stringify(users));
+    pageLoad()
+
 }
 
 function onEdit(td) {
@@ -483,12 +604,6 @@ function onDelete(td) {
     }
 }
 
-
-// window.addEventListener("beforeunload", warnBeforeReload);
-// function warnBeforeReload(event) {
-//     event.preventDefault();
-//     event.returnValue = '';
-// }
 
 
 function isDuplicateEmail(editIndex) {
