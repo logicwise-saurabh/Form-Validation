@@ -707,15 +707,20 @@ function validatePrimaryLanguage() {
 document.addEventListener("DOMContentLoaded", () => {
     const userform = document.getElementById("reg-form");
     const inputs = userform.querySelectorAll("input");
-    const checkboxes = document.querySelectorAll('input[name="languagesKnown"]');
+
 
     inputs.forEach(input => {
         const savedValue = localStorage.getItem(input.id);
         if (savedValue !== null) {
             if (input.type === "checkbox") {
-                input.checked = savedValue === "true";
+                if (savedValue == input.value) {
+                    input.checked = "true";
+                }
+
             } else if (input.type === "radio") {
-                input.checked = savedValue === "true";
+                if (savedValue == input.value) {
+                    input.checked = "true";
+                }
             } else {
                 input.value = savedValue;
             }
