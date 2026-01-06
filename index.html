@@ -54,7 +54,8 @@
 
         <br>
         <label for="password">Password</label>
-        <input type="password" name="password" id="user-password" placeholder="Password" onblur="passValidation()">
+        <input type="password" name="password" id="user-password" placeholder=" Enter Password"
+            onblur="passValidation()">
         <span id="pass-error"></span>
         <br>
         <label for="confrim-password"> Confirm Password</label>
@@ -68,8 +69,7 @@
 
         <label for="High-school-cgpa">Choose your Cgpa</label>
 
-        <input type="range" value="0" min="0" max="10" id="High-school-cgpa" oninput="setFormChanged()"
-            oninput="cgpaShowing()">
+        <input type="range" value="0" min="0" max="10" id="High-school-cgpa" oninput="setFormChanged(),cgpaShowing()">
         <span id="rangeCgpaValue"></span>
         <span id="cgpa-error"></span>
         <br>
@@ -103,21 +103,16 @@
         Marathi
         <span id="languages-error"></span>
 
-        <br><br>
+        <br> <br>
+        <button type="reset">Clear</button>
 
-        <!-- <button type="button" onclick="saveLanguages()">Save</button> -->
-
-
-
-        <!-- <input type="checkbox" id="agree" onblur="checkBox()" onchange="checkBox()" 
-
-        <label for="agree" id="agreecheck"> </label> -->
-
-        <input type="reset" id="btn-reset" value="Reset" onclick="formReset()">
+        <!-- <input type="reset" id="btn-reset" value="Reset" onclick="formReset()"> -->
         <button type="submit" disabled id="submit-btn" onclick="toSaveLocalStorage()">Submit</button>
 
 
     </form>
+    <br>
+
 
     <table id="user-table">
         <tr style="border: 1px black solid;">
@@ -142,6 +137,25 @@
         th,
         td {
             border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .link {
+
+            display: inline-block;
+            outline: 0;
+            border: 0;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            border: 1px solid #cbd5e0;
+            line-height: 26px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+
         }
     </style>
 
@@ -152,10 +166,8 @@
     <p id="showuser"></p> -->
 
 
-    <script>
-        // window.onload(pageLoad(), toSaveDefoultData())
 
-    </script>
+
 
 
 </body>

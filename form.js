@@ -1,10 +1,9 @@
 var editUserIndex = null;
 var selectedRow = null
-
+let editMode = false;
 
 function userFormValidation() {
     const submitButton = document.getElementById("submit-btn")
-
     const fullName = document.getElementById("user-name").value.trim();
     const emailId = document.getElementById("email-id").value.trim();
     const contactNumber = document.getElementById("contact-number").value.trim();
@@ -64,8 +63,6 @@ function emailValidation() {
     const userEmail = document.getElementById("email-id").value.trim();
     const emailError = document.getElementById("email-error");
     userFormValidation()
-
-    // const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
 
     if (userEmail === "") {
@@ -225,30 +222,9 @@ function confirmPassValidation() {
     }
 
 }
-// function formResetOnLoad(event) {
-
-//     const userform = document.getElementById("reg-form")
-//     const text = confirm("The form is being reset.");
 
 
-//     if (text) {
-//         text = "Form Cleared!";
-//         userform.reset()
-//         console.log("form reset")
 
-//     } else {
-//         event.preventDefault();
-//         event.returnValue = '';
-
-//     }
-// }
-
-document.getElementById("reg-form").addEventListener("input", function handler(e) {
-    // Run only once when the user starts editing
-    formResetOnLoad(e);
-    // Remove listener so it doesn't trigger repeatedly
-    e.currentTarget.removeEventListener("input", handler);
-})
 function formResetOnLoad(event) {
     const userform = document.getElementById("reg-form");
     const confirmReset = confirm("The form is being reset. Continue?");
@@ -263,39 +239,6 @@ function formResetOnLoad(event) {
         event.returnValue = ''; // Required for Chrome
     }
 }
-
-
-// window.addEventListener("beforeunload", formResetOnLoad);
-
-
-
-// let formChanged = false;
-
-// // Function to mark the form as changed when the user types
-// function setFormChanged() {
-//     formChanged = true;
-// }
-
-// // Function to reset the form status when submitted (preventing the alert)
-// document.getElementById('reg-form').addEventListener('submit', function () {
-//     formChanged = false;
-// });
-
-// // Add the beforeunload event listener to the window
-// window.addEventListener('beforeunload', function (e) {
-//     if (formChanged) {
-//         // Cancel the event and trigger the default browser confirmation dialog
-//         e.preventDefault();
-
-//         // The following line is for compatibility with older browsers. 
-//         // Modern browsers ignore the custom message and show a generic one.
-//         e.returnValue = '';
-//     }
-// });
-
-
-
-
 
 function formReset() {
     const userform = document.getElementById("reg-form")
@@ -369,8 +312,8 @@ function addRow(user) {
     newRow.insertCell(6).innerText = user.schoolCgpa;
     newRow.insertCell(7).innerText = user.primaryLanguage;
     newRow.insertCell(8).innerText = user.languagesKnown
-    newRow.insertCell(9).innerHTML = `<a  onClick="onEdit(this)">Edit</a>
-                       <a onClick="onDelete(this)">Delete</a>`
+    newRow.insertCell(9).innerHTML = `<a class="link" onClick="onEdit(this)">Edit</a>
+                       <a class="link" onClick="onDelete(this)">Delete</a>`
 
 
 
@@ -381,7 +324,7 @@ function addRow(user) {
 
 function pageLoad() {
 
-    // formReset()
+
     const storedData = JSON.parse(localStorage.getItem("users")) || [];
     storedData.forEach(users => addRow(users));
     // localStorage.clear()
@@ -483,6 +426,9 @@ function toSaveLocalStorage() {
     console.log("User saved");
     console.log(newUser.userName)
     addCurrentRow()
+    formChanged = false;
+    editMode = false;
+
 
 
 
@@ -552,9 +498,32 @@ function toSaveDefoultData() {
     pageLoad()
 
 }
+let formChanged = false;
+
+function setFormChanged() {
+    formChanged = true;
+}
+
+// window.addEventListener("beforeunload", function (e) {
+//     if (formChanged) {
+//         e.preventDefault();
+//         e.returnValue = '';
+//     }
+// });
+
+
+window.addEventListener("beforeunload", function (e) {
+    if (editMode && formChanged) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+
 
 function onEdit(td) {
 
+    editMode = true;
+    formChanged = false;
     const userform = document.getElementById("reg-form")
     userform.reset()
 
@@ -733,4 +702,39 @@ function validatePrimaryLanguage() {
         return false
     }
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userform = document.getElementById("reg-form");
+    const inputs = userform.querySelectorAll("input");
+    const checkboxes = document.querySelectorAll('input[name="languagesKnown"]');
+
+    inputs.forEach(input => {
+        const savedValue = localStorage.getItem(input.id);
+        if (savedValue !== null) {
+            if (input.type === "checkbox") {
+                input.checked = savedValue === "true";
+            } else if (input.type === "radio") {
+                input.checked = savedValue === "true";
+            } else {
+                input.value = savedValue;
+            }
+        }
+
+
+        input.addEventListener("input", () => {
+            localStorage.setItem(input.id, input.value);
+        });
+
+    });
+    userform.addEventListener("submit", () => {
+        inputs.forEach(input => localStorage.removeItem(input.id)
+
+        )
+
+    });
+
+
+});
+
 
