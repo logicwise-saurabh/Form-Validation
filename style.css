@@ -1,0 +1,42 @@
+ /* * {
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    width: auto;
+    background: #e2caca;
+
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+*/
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+} 
+
+ .link {
+
+     display: inline-block;
+     outline: 0;
+     border: 0;
+     cursor: pointer;
+     background-color: white;
+     border-radius: 4px;
+     padding: 8px 16px;
+     font-size: 16px;
+     font-weight: 600;
+     color: #2d3748;
+     border: 1px solid #cbd5e0;
+     line-height: 26px;
+     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+
+ }

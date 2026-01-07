@@ -1,138 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>form</title>
     <script src="form.js"></script>
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body onload="toSaveDefoultData()">
+  <body onload="pageonLoad(),pageonLoad2()">
+    <div class="container">
+      <div class="form-container">
+        <form action="" name=" myform" id="reg-form" onblur="">
+          <label for="name">Enter your name :</label>
+          <input
+            type="text"
+            id="user-name"
+            oninput="setFormChanged()"
+            onblur="validateUserName()"
+          />
+          <span id="name-error"></span>
 
+          <br />
 
+          <label for="age">Enter your age :</label>
+          <input
+            type="number"
+            id="user-age"
+            oninput="setFormChanged()"
+            onblur="ageValidation()"
+          />
+          <span id="age-error"></span>
 
-    <form action="" name=" myform" id="reg-form" onclick="">
-        <label for="name">Enter your name :</label>
-        <input type="text" id="user-name" oninput="setFormChanged()" onblur="validateUserName()">
-        <span id="name-error"></span>
+          <br />
 
-        <br>
+          <label for="name">Choose your gender :</label>
 
-        <label for="age">Enter your age :</label>
-        <input type="number" id="user-age" oninput="setFormChanged()" onblur="ageValidation()">
-        <span id="age-error"></span>
-
-
-        <br>
-
-        <label for="name">Choose your gender :</label>
-
-        <select name="gender" id="user-gender" value="choose gender" oninput="setFormChanged()" onblur="dropDown()">
+          <select
+            name="gender"
+            id="user-gender"
+            value="choose gender"
+            oninput="setFormChanged()"
+            onblur="dropDown()"
+          >
             <option value="Choosegender" selected>Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>Select gender
-            <option value="other">other</option>
-        </select>
-        <span id="gender-error"></span>
+            <option id="male" value="male">Male</option>
+            <option id="female" value="female">Female</option>
+            Select gender
+            <option id="other" value="other">other</option>
+          </select>
+          <span id="gender-error"></span>
 
+          <br />
 
-        <br>
+          <label for="contact-number">Enter contact number</label>
+          <input
+            type="tel"
+            name="contact"
+            id="contact-number"
+            oninput="setFormChanged()"
+            onblur="contactNumberValidation()"
+          />
+          <span id="contact-error"></span>
 
-        <label for="contact-number">Enter contact number</label>
-        <input type="tel" name="contact" id="contact-number" oninput="setFormChanged()"
-            onblur="contactNumberValidation()">
-        <span id="contact-error"></span>
+          <br />
 
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email-id"
+            oninput="setFormChanged()"
+            onblur="emailValidation()"
+          />
+          <span id="email-error"></span>
 
-        <br>
+          <br />
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="user-password"
+            placeholder=" Enter Password"
+            onblur="passValidation(),confirmPassValidation()"
+          />
+          <span id="pass-error"></span>
+          <br />
+          <label for="confrim-password"> Confirm Password</label>
+          <input
+            type="password"
+            name="password"
+            id="user-confirm-password"
+            onblur="confirmPassValidation()"
+          />
+          <span id="pass-not-match"></span>
+          <br />
 
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email-id" oninput="setFormChanged()" onkeyup="isDuplicateEmail()"
-            onblur="emailValidation()">
-        <span id="email-error"></span>
+          <label for="High-school">High School</label>
+          <input
+            type="text"
+            name=""
+            id="school-name"
+            oninput="setFormChanged()"
+            onblur="schoolNamevalidation()"
+          />
+          <span id="school-error"></span><br /><br />
 
-        <br>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="user-password" placeholder=" Enter Password"
-            onblur="passValidation()">
-        <span id="pass-error"></span>
-        <br>
-        <label for="confrim-password"> Confirm Password</label>
-        <input type="password" name="password" id="user-confirm-password" onblur="confirmPassValidation()">
-        <span id="pass-not-match"></span>
-        <br>
+          <label for="High-school-cgpa">Choose your Cgpa</label>
 
-        <label for="High-school">High School</label>
-        <input type="text" name="" id="school-name" oninput="setFormChanged()" onblur="schoolNamevalidation()">
-        <span id="school-error"></span><br><br>
+          <input
+            type="range"
+            value="0"
+            min="0"
+            max="10"
+            id="High-school-cgpa"
+            oninput="setFormChanged(),cgpaShowing()"
+          />
+          <span id="rangeCgpaValue"></span>
+          <span id="cgpa-error"></span>
+          <br />
 
-        <label for="High-school-cgpa">Choose your Cgpa</label>
+          <label>Primary Language:</label><br />
+          <input
+            type="radio"
+            id="lang-en"
+            name="primaryLanguage"
+            value="English"
+            oninput="setFormChanged()"
+            onchange="validatePrimaryLanguage()"
+          />
+          English
+          <input
+            type="radio"
+            id="lang-hi"
+            name="primaryLanguage"
+            value="Hindi"
+            oninput="setFormChanged()"
+            onchange="validatePrimaryLanguage()"
+          />
+          Hindi
+          <input
+            type="radio"
+            id="lang-gu"
+            name="primaryLanguage"
+            value="Gujarati"
+            oninput="setFormChanged()"
+            onchange="validatePrimaryLanguage()"
+          />
+          Gujarati
+          <span id="primary-lang-error"></span><br />
+          <br /><br />
 
-        <input type="range" value="0" min="0" max="10" id="High-school-cgpa" oninput="setFormChanged(),cgpaShowing()">
-        <span id="rangeCgpaValue"></span>
-        <span id="cgpa-error"></span>
-        <br>
+          <label>Languages Known:</label><br />
+          <input
+            type="checkbox"
+            id="chk-en"
+            value="English"
+            name="languagesKnown"
+            oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()"
+          />
+          English
+          <input
+            type="checkbox"
+            id="chk-hi"
+            value="Hindi"
+            name="languagesKnown"
+            oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()"
+          />
+          Hindi
+          <input
+            type="checkbox"
+            id="chk-gu"
+            value="Gujarati"
+            name="languagesKnown"
+            oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()"
+          />
+          Gujarati
+          <input
+            type="checkbox"
+            id="chk-mr"
+            value="Marathi"
+            name="languagesKnown"
+            oninput="setFormChanged()"
+            onchange="validateLanguagesKnown()"
+          />
+          Marathi
+          <span id="languages-error"></span>
 
-        <label>Primary Language:</label><br>
-        <input type="radio" id="lang-en" name="primaryLanguage" value="English" oninput="setFormChanged()"
-            onchange="validatePrimaryLanguage()">
-        English
-        <input type="radio" id="lang-hi" name="primaryLanguage" value="Hindi" oninput="setFormChanged()"
-            onchange="validatePrimaryLanguage()">
-        Hindi
-        <input type="radio" id="lang-gu" name="primaryLanguage" value="Gujarati" oninput="setFormChanged()"
-            onchange="validatePrimaryLanguage()">
-        Gujarati
-        <span id="primary-lang-error"></span><br>
-        <br><br>
+          <br />
+          <br />
+          <button type="reset" onclick="formReset()">Clear</button>
 
+          <!-- <input type="reset" id="btn-reset" value="Reset" onclick="formReset()"> -->
+          <button
+            type="submit"
+            disabled
+            id="submit-btn"
+            onclick="toSaveLocalStorage()"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+      <br />
 
-        <label>Languages Known:</label><br>
-        <input type="checkbox" id="chk-en" value="English" name="languagesKnown" oninput="setFormChanged()"
-            onchange="validateLanguagesKnown()">
-        English
-        <input type="checkbox" id="chk-hi" value="Hindi" name="languagesKnown" oninput="setFormChanged()"
-            onchange="validateLanguagesKnown()">
-        Hindi
-        <input type="checkbox" id="chk-gu" value="Gujarati" name="languagesKnown" oninput="setFormChanged()"
-            onchange="validateLanguagesKnown()">
-        Gujarati
-        <input type="checkbox" id="chk-mr" value="Marathi" name="languagesKnown" oninput="setFormChanged()"
-            onchange="validateLanguagesKnown()">
-        Marathi
-        <span id="languages-error"></span>
-
-        <br> <br>
-        <button type="reset">Clear</button>
-
-        <!-- <input type="reset" id="btn-reset" value="Reset" onclick="formReset()"> -->
-        <button type="submit" disabled id="submit-btn" onclick="toSaveLocalStorage()">Submit</button>
-
-
-    </form>
-    <br>
-
-
-    <table id="user-table">
-        <tr style="border: 1px black solid;">
-            <th>Name</th>
-            <th>age</th>
-            <th>gender</th>
-            <th>contact Number</th>
-            <th>Email</th>
-            <th>School Name</th>
-            <th>CGPA</th>
-            <th>Priamry Language</th>
-            <th>Known Language</th>
-            <th>Action</th>
+      <table id="user-table">
+        <tr style="border: 1px black solid">
+          <th>Name</th>
+          <th>age</th>
+          <th>gender</th>
+          <th>contact Number</th>
+          <th>Email</th>
+          <th>School Name</th>
+          <th>CGPA</th>
+          <th>Password</th>
+          <th>Priamry Language</th>
+          <th>Known Language</th>
+          <th>Action</th>
         </tr>
-        <tbody>
-
-        </tbody>
-
-    </table>
-    <style>
+        <tbody></tbody>
+      </table>
+      <!-- <style>
         table,
         th,
         td {
@@ -157,19 +248,13 @@
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
 
         }
-    </style>
+    </style> -->
 
+      <!-- <button onclick="toDeleteData()">Click</button> -->
+      <!-- <button onclick="toSaveDefoultData()">Shave Defoult data</button> -->
 
-    <!-- <button onclick="toSaveLocalStorage()">Click</button>
-    <button onclick="toSaveDefoultData()">Shave Defoult data</button>
-    <button onclick="isDuplicateEmail()">Show user</button>
-    <p id="showuser"></p> -->
-
-
-
-
-
-
-</body>
-
+      <!-- <button onclick="isDuplicateEmail()">Show user</button> -->
+      <!-- <p id="showuser"></p> -->
+    </div>
+  </body>
 </html>
