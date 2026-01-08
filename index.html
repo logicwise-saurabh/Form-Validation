@@ -70,8 +70,7 @@
             type="email"
             name="email"
             id="email-id"
-            oninput="setFormChanged()"
-            onblur="emailValidation()"
+            oninput="emailValidation(),setFormChanged()"
           />
           <span id="email-error"></span>
 
@@ -206,6 +205,72 @@
         </form>
       </div>
       <br />
+      <div class="filter">
+        <input
+          type="text"
+          id="Name-value"
+          placeholder="Name"
+          onblur="filterName"
+        />
+        <!-- <input type="text" name="" id="" placeholder="email" /> -->
+        <p>Enter CGPA(Minimum or Maximum)</p>
+
+        <input
+          type="number"
+          min="0"
+          max="10"
+          id="min-value-cgpa"
+          placeholder="Minimum Value"
+        />
+
+        <input
+          placeholder="Maximum Value"
+          type="number"
+          min="0"
+          max="10"
+          id="max-value-cgpa"
+        />
+        <br />
+
+        <input type="email" name="" id="" placeholder="Enter Email" />
+
+        <select name="gender" id="user-gender" value="choose gender">
+          <option value="Choosegender" selected>Select gender</option>
+          <option id="male" value="male">Male</option>
+          <option id="female" value="female">Female</option>
+          Select gender
+          <option id="other" value="other">other</option>
+        </select>
+
+        <input
+          type="tel"
+          name="contact"
+          id="contact-number"
+          placeholder="contact Number"
+        />
+
+        <p>Enter User Age</p>
+
+        <input
+          type="number"
+          min="0"
+          max="10"
+          id="min-value-cgpa"
+          placeholder="Minimum Age"
+        />
+
+        <input
+          placeholder="Maximum  Age"
+          type="number"
+          min="0"
+          max="10"
+          id="max-value-cgpa"
+        />
+
+        <input type="text" name="" id="" />
+        <label for="Choose Language">Choose langauge</label>
+        <!-- <span id="gender-error"></span> -->
+      </div>
 
       <table id="user-table">
         <tr style="border: 1px black solid">
@@ -221,40 +286,16 @@
           <th>Known Language</th>
           <th>Action</th>
         </tr>
+
         <tbody></tbody>
       </table>
-      <!-- <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
 
-        .link {
-
-            display: inline-block;
-            outline: 0;
-            border: 0;
-            cursor: pointer;
-            background-color: white;
-            border-radius: 4px;
-            padding: 8px 16px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #2d3748;
-            border: 1px solid #cbd5e0;
-            line-height: 26px;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-
-        }
-    </style> -->
-
-      <!-- <button onclick="toDeleteData()">Click</button> -->
+      <button onclick="filterTable()">Click</button>
       <!-- <button onclick="toSaveDefoultData()">Shave Defoult data</button> -->
 
       <!-- <button onclick="isDuplicateEmail()">Show user</button> -->
-      <!-- <p id="showuser"></p> -->
+      <p id="showcgp"></p>
+      <!-- <input id="choose cgpe" type="text" /> -->
     </div>
   </body>
 </html>

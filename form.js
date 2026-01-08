@@ -1,7 +1,75 @@
 var editUserIndex = null;
 var selectedRow = null;
 let editMode = false;
-
+let previousIndex = null;
+/**
+ *  userFormValidation()
+ *used  logical opertor (&&,||)
+ *used comparsion opertor(!==,==)
+ *used contional if else
+ *used assignment opertor(=)
+ *used regular funation
+ *
+ *  pageonLoad()
+ * used ! not equal opertor
+ * used if else condtion
+ * used  regular function
+ *
+ *   pageonLoad2()
+ * used comprasion opertor (>=)
+ * used logical opertor (||)
+ * used if condtion
+ *
+ *  validateUserName()
+ *  used Regular Expression to validate user Full name
+ * used if  else condtion
+ * used not opertor !
+ *
+ *  emailValidation()
+ * used regular Exprssion to validate email Id
+ * used if else condtion
+ * used compairsion opertor (===)
+ * used booleon opertor
+ *
+ *  contactNumberValidation()
+ * used regular expression to validdate number
+ * used ! logical opertor
+ * used trim() method to trim value of string
+ *  
+ *  schoolNamevalidation()
+ * used trim method ,regular expression, booleon,const varibale
+ * and test method to validate pattern of regular expression
+ *
+ *    cgpaShowing()
+ * used compersion opetor(===),if else,boolean
+ * used regualr function
+ *
+ 
+ *  onEdit()
+ * array method split,map,push,foreach,includes
+ *
+ *  onDelete()
+ * array splice
+ * used findIndex method
+ * 
+ *  addRow()
+ * table method insert Cell .insertrow,
+ *
+ *  toSaveLocalStorage()
+ * used object
+ * used local Storage and their method (getItem,setItem,removeItem)
+ * used json prase and json stringyfy
+ * used array and method(push)
+ * 
+ * formRestOnLoad()
+ * event
+ * objectt
+ * confrim
+ * rest from and relod method
+ *
+ *
+ *
+ */
 function pageonLoad() {
   if (!localStorage.getItem("hasRun")) {
     toSaveDefoultData();
@@ -26,7 +94,15 @@ function pageonLoad2() {
 
   localStorage.setItem("runCount", runCount + 1);
 }
+/**
+ *used  logical opertor (&&,||)
+ *used comparsion opertor(!==,==)
+ *used contional if else
+  *used assignment opertor(=)
+ *used regular funation
+  
 
+  */
 function userFormValidation() {
   const submitButton = document.getElementById("submit-btn");
   const fullName = document.getElementById("user-name").value.trim();
@@ -73,6 +149,9 @@ function userFormValidation() {
   }
 }
 
+/**
+ *
+ */
 function validateUserName() {
   const userName = document.getElementById("user-name").value.trim();
   const nameError = document.getElementById("name-error");
@@ -104,7 +183,10 @@ function emailValidation() {
     emailError.textContent = "Enter valid email";
     return false;
   }
-  if (isDuplicateEmail()) {
+  // if (editMode === true) {
+  // }
+
+  if (isDuplicateEmail(editUserIndex)) {
     emailError.textContent = "Email already exists";
     console.log("duplicate email");
     return false;
@@ -228,7 +310,10 @@ function confirmPassValidation() {
     return false;
   }
 }
-
+/**
+ *
+ *
+ */
 function formResetOnLoad(event) {
   const userform = document.getElementById("reg-form");
   const confirmReset = confirm("The form is being reset. Continue?");
@@ -239,30 +324,18 @@ function formResetOnLoad(event) {
   } else {
     console.log("Form not reset");
     event.preventDefault();
-    event.returnValue = ""; // Required for Chrome
+    event.returnValue = "";
   }
 }
 
 function formReset() {
   const userform = document.getElementById("reg-form");
-  document.getElementById("submit-btn").innerText = "Submit";
-  let text = confirm("The form is being reset.");
 
-  if (text == true) {
-    text = "Form Cleared!";
-    //document.getElementById("myForm").reset();
-
-    userform.reset();
-
-    // Reloads the current page
-    // window.location.reload();
-
-    console.log("form reset");
-  } else {
-    text = "";
-
-    console.log("not reset");
-  }
+  text = "Form Cleared!";
+  userform.reset();
+  editMode = false;
+  window.location.reload();
+  console.log("form reset");
 }
 
 function checkBox() {
@@ -293,7 +366,17 @@ function dropDown() {
     return true;
   }
 }
-
+/**
+ *  addRow()
+ * table method insert Cell .insertrow,
+ *
+ *  toSaveLocalStorage
+ *   used object
+ *  used local Storage and their method (getItem,setItem,removeItem)
+ * used json prase and json stringyfy
+ * used array and method(push)
+ *
+ */
 function addRow(user) {
   const table = document.getElementById("user-table");
   const newRow = table.insertRow(-1);
@@ -312,55 +395,88 @@ function addRow(user) {
   ).innerHTML = `<a class="link" onClick="onEdit(this)">Edit</a>
                        <a class="link" onClick="onDelete(this)">Delete</a>`;
 }
+// let users = JSON.parse(localStorage.getItem("users")) || [];
 
-function addToTable() {
-  const form = document.getElementById("reg-form");
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-  });
-  const table = document.getElementById("user-table");
-  const fullName = document.getElementById("user-name").value.trim();
-  const emailId = document.getElementById("email-id").value.trim();
-  const userGender = document.getElementById("user-gender").value;
-  const contactNumber = document.getElementById("contact-number").value.trim();
-  const schoolName = document.getElementById("school-name").value.trim();
-  const Cgpa = document.getElementById("High-school-cgpa").value.trim();
-  const Age = document.getElementById("user-age").value.trim();
-  // const userPassword = document.getElementById("user-password").value.trim();
-  // const userConfrimPass = document.getElementById("user-confirm-password").value.trim();
+// function loadTable(data) {
+//   const tbody = document
+//     .getElementById("user-table")
+//     .getElementsByTagName("tbody")[0];
 
-  // let storedData = JSON.parse(localStorage.getItem("users"))
-  // console.log(storedData)
-  // addRow()
-  // const table = document.getElementById("user-table");
-  // const newRow = table.insertRow(-1);
-  // newRow.insertCell(0).innerText = storedData.userName;
-  // newRow.insertCell(1).innerText = storedData.userAge;;
-  // newRow.insertCell(2).innerText = storedData.gender;
-  // newRow.insertCell(3).innerText = storedData.contactNum;
-  // newRow.insertCell(4).innerText = storedData.email;
-  // newRow.insertCell(5).innerText = storedData.school;
-  // newRow.insertCell(6).innerText = storedData.schoolCgpa;
+//   // clear rows safely
+//   tbody.innerHTML = "";
 
-  const newRow = table.insertRow(-1);
-  const cell1 = newRow.insertCell(0);
-  const cell2 = newRow.insertCell(1);
-  const cell3 = newRow.insertCell(2);
-  const cell4 = newRow.insertCell(3);
-  const cell5 = newRow.insertCell(4);
-  const cell6 = newRow.insertCell(5);
-  const cell7 = newRow.insertCell(6);
+//   // add new rows
+//   data.forEach((user) => addRow(user));
+// }
 
-  // console.log(storedData.userName)
+// // show all users initially
+// loadTable(users);
 
-  cell1.innerHTML = fullName;
-  cell2.innerHTML = Age;
-  cell3.innerHTML = userGender;
-  cell4.innerHTML = contactNumber;
-  cell5.innerHTML = emailId;
-  cell6.innerHTML = schoolName;
-  cell7.innerHTML = Cgpa;
-}
+// document.getElementById("cgpaFilter").addEventListener("change", function () {
+//   const value = this.value;
+
+//   if (value === "all") {
+//     // show all rows
+//     loadTable(users);
+//     console.log("cgpa filter");
+//   } else {
+//     // filter by CGPA
+//     const filteredUsers = users.filter(
+//       (user) => Number(user.schoolCgpa) >= Number(value)
+//     );
+
+//     addRow(filteredUsers);
+//   }
+// });
+
+// function addToTable() {
+//   const form = document.getElementById("reg-form");
+//   form.addEventListener("submit", function (event) {
+//     event.preventDefault();
+//   });
+//   const table = document.getElementById("user-table");
+//   const fullName = document.getElementById("user-name").value.trim();
+//   const emailId = document.getElementById("email-id").value.trim();
+//   const userGender = document.getElementById("user-gender").value;
+//   const contactNumber = document.getElementById("contact-number").value.trim();
+//   const schoolName = document.getElementById("school-name").value.trim();
+//   const Cgpa = document.getElementById("High-school-cgpa").value.trim();
+//   const Age = document.getElementById("user-age").value.trim();
+//   // const userPassword = document.getElementById("user-password").value.trim();
+//   // const userConfrimPass = document.getElementById("user-confirm-password").value.trim();
+
+//   // let storedData = JSON.parse(localStorage.getItem("users"))
+//   // console.log(storedData)
+//   // addRow()
+//   // const table = document.getElementById("user-table");
+//   // const newRow = table.insertRow(-1);
+//   // newRow.insertCell(0).innerText = storedData.userName;
+//   // newRow.insertCell(1).innerText = storedData.userAge;;
+//   // newRow.insertCell(2).innerText = storedData.gender;
+//   // newRow.insertCell(3).innerText = storedData.contactNum;
+//   // newRow.insertCell(4).innerText = storedData.email;
+//   // newRow.insertCell(5).innerText = storedData.school;
+//   // newRow.insertCell(6).innerText = storedData.schoolCgpa;
+
+//   const newRow = table.insertRow(-1);
+//   const cell1 = newRow.insertCell(0);
+//   const cell2 = newRow.insertCell(1);
+//   const cell3 = newRow.insertCell(2);
+//   const cell4 = newRow.insertCell(3);
+//   const cell5 = newRow.insertCell(4);
+//   const cell6 = newRow.insertCell(5);
+//   const cell7 = newRow.insertCell(6);
+
+//   // console.log(storedData.userName)
+
+//   cell1.innerHTML = fullName;
+//   cell2.innerHTML = Age;
+//   cell3.innerHTML = userGender;
+//   cell4.innerHTML = contactNumber;
+//   cell5.innerHTML = emailId;
+//   cell6.innerHTML = schoolName;
+//   cell7.innerHTML = Cgpa;
+// }
 
 function toSaveLocalStorage() {
   // const table = document.getElementById("user-table");
@@ -429,7 +545,6 @@ function toSaveDefoultData() {
       primaryLanguage: "English",
       languagesKnown: ["Hindi", "Marathi"],
     },
-    //   let user2 =
     {
       userName: "John Doe",
       email: "john.doe@gmail.com",
@@ -442,7 +557,6 @@ function toSaveDefoultData() {
       primaryLanguage: "English",
       languagesKnown: ["Hindi", "Marathi"],
     },
-    //   let user3 =
     {
       userName: "Jane Smith",
       email: "jane.smith@gmail.com",
@@ -496,6 +610,22 @@ function onEdit(td) {
 
   const selectedRow = td.parentElement.parentElement;
   editUserIndex = selectedRow.rowIndex - 1;
+
+  if (
+    previousIndex !== null &&
+    ~previousIndex &&
+    previousIndex !== editUserIndex
+  ) {
+    const table = document.getElementById("user-table");
+    const targetRow = table.rows[previousIndex + 1];
+    targetRow.style.color = "black";
+    previousIndex = null;
+  }
+  if (editMode && ~editUserIndex) {
+    selectedRow.style.color = "blue";
+    previousIndex = editUserIndex;
+  }
+
   document.getElementById("user-name").value = selectedRow.cells[0].innerHTML;
   document.getElementById("user-age").value = selectedRow.cells[1].innerHTML;
   document.getElementById("user-gender").value =
@@ -537,6 +667,9 @@ function onDelete(td) {
     users.splice(rowIndex, 1);
     localStorage.setItem("users", JSON.stringify(users));
     document.getElementById("user-table").deleteRow(row.rowIndex);
+    if (editMode && editUserIndex === rowIndex) {
+      formReset();
+    }
   } else {
     return;
   }
@@ -546,17 +679,14 @@ function isDuplicateEmail(editIndex) {
   // const emailError = document.getElementById("email-error");
   const inputEmail = document.getElementById("email-id").value.trim();
   let users = JSON.parse(localStorage.getItem("users")) || [];
+  const existingUsers = users.findIndex(
+    (a, i) => a.email === inputEmail && editIndex !== i
+  );
+  console.log("existingUsers :>> ", { editUserIndex, existingUsers });
 
-  for (let i = 0; i < users.length; i++) {
-    if (editIndex !== null && i === editIndex) {
-      continue;
-    }
-
-    if (users[i].email.toLowerCase() === inputEmail.toLowerCase()) {
-      return true;
-    }
+  if (~existingUsers) {
+    return true;
   }
-
   return false;
 }
 
@@ -632,6 +762,10 @@ function setPrimaryLanguage(value) {
     document.getElementById("lang-hi"),
     document.getElementById("lang-gu"),
   ];
+  // radios.filter();
+  // function radioCheck(){ radios[i].checked = radios[i].value === value;
+
+  // }
 
   for (let i = 0; i < radios.length; i++) {
     radios[i].checked = radios[i].value === value;
@@ -697,3 +831,68 @@ function pageLoad() {
   storedData.forEach((users) => addRow(users));
   // localStorage.clear()
 }
+function checkCgpa(gpa) {
+  return gpa < 10;
+}
+
+// function filterTable() {
+//   const filterValue = document.getElementById("filter-value").value;
+//   const table = document.getElementById("user-table");
+//   const storedData = JSON.parse(localStorage.getItem("users")) || [];
+//   console.log(storedData.schoolCgpa);
+
+//   const cgpa = storedData.filter(checkCgpa);
+//   console.log(cgpa);
+// }
+
+// function checkCgpa(user) {
+//   return user.schoolCgpa < 10; // check property inside object
+// }
+
+function filterTable() {
+  const filterValue = document.getElementById("filter-value").value;
+  const table = document.getElementById("user-table");
+
+  const storedData = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Example: log first user's cgpa
+  if (storedData.length > 0) {
+    console.log(storedData.schoolCgpa);
+  }
+
+  // Filter users by cgpa
+  const cgpaFiltered = storedData.filter(checkCgpa);
+  console.log(cgpaFiltered);
+}
+
+function filterCgpa() {
+  const rangeInput = document.getElementById("High-school-cgpa");
+  const rangeValue = document.getElementById("rangeCgpaValue");
+  userFormValidation();
+
+  rangeValue.textContent = rangeInput.value;
+  if (rangeInput.value === "0") {
+    document.getElementById("cgpa-error").textContent = "Choose CGPA(1-10)";
+    console.log("cgpa-error");
+    return false;
+  } else {
+    document.getElementById("cgpa-error").textContent = "";
+    console.log("cgpa-true");
+    return true;
+  }
+}
+
+// Retrieve the data string from localStorage
+// function filterName() {
+//   const user=
+//   const storedDataString = localStorage.getItem("users");
+
+//   // Parse the string back into a JavaScript array of objects
+//   const filterUserName = JSON.parse(storedDataString) || [];
+//   // Filter the array to get only "Fruit" items
+//   const userName = filterUserName.filter((item) => {
+//     return item.type === "Name-value";
+//   });
+
+//   console.log(userName);
+// }
