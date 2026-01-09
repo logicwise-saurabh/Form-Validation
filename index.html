@@ -205,13 +205,20 @@
         </form>
       </div>
       <br />
+
       <div class="filter">
         <input
+          type="text"
+          id="search"
+          placeholder="Search Here"
+          onkeyup="applymultiColFilter()"
+        />
+        <!-- <input
           type="text"
           id="Name-value"
           placeholder="Name"
           onblur="filterName"
-        />
+        /> -->
         <!-- <input type="text" name="" id="" placeholder="email" /> -->
         <p>Enter CGPA(Minimum or Maximum)</p>
 
@@ -221,6 +228,7 @@
           max="10"
           id="min-value-cgpa"
           placeholder="Minimum Value"
+          onkeyup="applyFilters()"
         />
 
         <input
@@ -229,12 +237,24 @@
           min="0"
           max="10"
           id="max-value-cgpa"
+          onkeyup="applyFilters()"
         />
         <br />
 
-        <input type="email" name="" id="" placeholder="Enter Email" />
+        <input
+          type="email"
+          name=""
+          id="filter-email"
+          placeholder="Enter Email"
+          onkeyup="applyFilters()"
+        />
 
-        <select name="gender" id="user-gender" value="choose gender">
+        <select
+          name="gender"
+          id="filter-gender"
+          value="choose gender"
+          onchange="applyFilters()"
+        >
           <option value="Choosegender" selected>Select gender</option>
           <option id="male" value="male">Male</option>
           <option id="female" value="female">Female</option>
@@ -245,29 +265,62 @@
         <input
           type="tel"
           name="contact"
-          id="contact-number"
+          maxlength="10"
+          id="filter-contac"
           placeholder="contact Number"
+          onkeyup="applyFilters()"
         />
 
         <p>Enter User Age</p>
 
         <input
           type="number"
-          min="0"
-          max="10"
-          id="min-value-cgpa"
+          id="min-age"
           placeholder="Minimum Age"
+          onkeyup="applyFilters()"
         />
 
         <input
           placeholder="Maximum  Age"
           type="number"
-          min="0"
-          max="10"
-          id="max-value-cgpa"
+          id="max-age"
+          onkeyup="applyFilters()"
         />
 
-        <input type="text" name="" id="" />
+        <input
+          type="checkbox"
+          id="lang-en"
+          value="English"
+          name="languagesKnown"
+          onchange="applyFilters()"
+        />
+        English
+        <input
+          type="checkbox"
+          id="lang-hi"
+          value="Hindi"
+          name="languagesKnown"
+          onchange="applyFilters()"
+        />
+        Hindi
+        <input
+          type="checkbox"
+          id="lang-gu"
+          value="Gujarati"
+          name="languagesKnown"
+          onchange="applyFilters()"
+        />
+        Gujarati
+        <input
+          type="checkbox"
+          id="lang-mr"
+          value="Marathi"
+          name="languagesKnown"
+          onchange="applyFilters()"
+        />
+        Marathi
+
+        <!-- <input type="text" name="" id="" /> -->
         <label for="Choose Language">Choose langauge</label>
         <!-- <span id="gender-error"></span> -->
       </div>
@@ -290,11 +343,11 @@
         <tbody></tbody>
       </table>
 
-      <button onclick="filterTable()">Click</button>
+      <!-- <button onclick="filterTable()">Click</button> -->
       <!-- <button onclick="toSaveDefoultData()">Shave Defoult data</button> -->
 
       <!-- <button onclick="isDuplicateEmail()">Show user</button> -->
-      <p id="showcgp"></p>
+      <!-- <p id="showcgp"></p> -->
       <!-- <input id="choose cgpe" type="text" /> -->
     </div>
   </body>

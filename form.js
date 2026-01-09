@@ -831,68 +831,127 @@ function pageLoad() {
   storedData.forEach((users) => addRow(users));
   // localStorage.clear()
 }
-function checkCgpa(gpa) {
-  return gpa < 10;
-}
 
-// function filterTable() {
-//   const filterValue = document.getElementById("filter-value").value;
-//   const table = document.getElementById("user-table");
-//   const storedData = JSON.parse(localStorage.getItem("users")) || [];
-//   console.log(storedData.schoolCgpa);
-
-//   const cgpa = storedData.filter(checkCgpa);
-//   console.log(cgpa);
-// }
-
-// function checkCgpa(user) {
-//   return user.schoolCgpa < 10; // check property inside object
-// }
-
-function filterTable() {
-  const filterValue = document.getElementById("filter-value").value;
+function renderTable(users) {
   const table = document.getElementById("user-table");
 
-  const storedData = JSON.parse(localStorage.getItem("users")) || [];
+  table.innerHTML = "";
 
-  // Example: log first user's cgpa
-  if (storedData.length > 0) {
-    console.log(storedData.schoolCgpa);
-  }
+  const thead = document.createElement("thead");
+  thead.innerHTML = `
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Contact Number</th>
+      <th>School Name</th>
+      <th>CGPA</th>
+      <th>Password</th>
+      <th>Primary Language</th>
+      <th>Known Languages</th>
+      <th>Action</th>
+    </tr>
+  `;
+  table.appendChild(thead);
 
-  // Filter users by cgpa
-  const cgpaFiltered = storedData.filter(checkCgpa);
-  console.log(cgpaFiltered);
+  const tbody = document.createElement("tbody");
+
+  users.forEach((user) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${user.userName}</td>
+      <td>${user.email}</td>
+      <td>${user.userAge}</td>
+      <td>${user.gender}</td>
+      <td>${user.contactNum}</td>
+      <td>${user.school}</td>
+      <td>${user.schoolCgpa}</td>
+      <td>${user.userPassword}</td>
+      <td>${user.primaryLanguage}</td>
+      <td>${user.languagesKnown}</td>
+      <td>
+        <button onclick="onEdit(this)">Edit</button>
+        <button onclick="onDelete(this)">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
 }
 
-function filterCgpa() {
-  const rangeInput = document.getElementById("High-school-cgpa");
-  const rangeValue = document.getElementById("rangeCgpaValue");
-  userFormValidation();
+function applymultiColFilter() {
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const multiSearch = document.getElementById("search").value;
 
-  rangeValue.textContent = rangeInput.value;
-  if (rangeInput.value === "0") {
-    document.getElementById("cgpa-error").textContent = "Choose CGPA(1-10)";
-    console.log("cgpa-error");
-    return false;
-  } else {
-    document.getElementById("cgpa-error").textContent = "";
-    console.log("cgpa-true");
-    return true;
-  }
+  const filteredMultiColU = users.filter((user) => {
+    return (
+      user.userName.toLowerCase().includes(multiSearch) ||
+      user.email.toLowerCase().includes(multiSearch) ||
+      user.school.toLowerCase().includes(multiSearch)
+    );
+  });
+  console.log(filteredMultiColU);
+  renderTable(filteredMultiColU);
 }
 
-// Retrieve the data string from localStorage
-// function filterName() {
-//   const user=
-//   const storedDataString = localStorage.getItem("users");
+function getLanguagesKnown() {
+  const languages = [];
 
-//   // Parse the string back into a JavaScript array of objects
-//   const filterUserName = JSON.parse(storedDataString) || [];
-//   // Filter the array to get only "Fruit" items
-//   const userName = filterUserName.filter((item) => {
-//     return item.type === "Name-value";
-//   });
+  if (document.getElementById("lang-en").checked) languages.push("English");
+  if (document.getElementById("lang-hi").checked) languages.push("Hindi");
+  if (document.getElementById("lang-gu").checked) languages.push("Gujarati");
+  if (document.getElementById("lang-mr").checked) languages.push("Marathi");
 
-//   console.log(userName);
-// }
+  return languages;
+}
+
+function applyFilters() {
+  const name = document.getElementById("Name-value")?.value.toLowerCase() || "";
+  const email =
+    document.getElementById("filter-email")?.value.toLowerCase() || "";
+  const contact = document.getElementById("filter-contact")?.value || "";
+  const gender = document.getElementById("filter-gender")?.value;
+  const minCgpa = document.getElementById("min-value-cgpa")?.value;
+  const maxCgpa = document.getElementById("max-value-cgpa")?.value;
+  const maxAge = document.getElementById("max-age")?.value;
+  const minAge = document.getElementById("min-age")?.value;
+  const selectedLanguages = getLanguagesKnown();
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  const filteredUsers = users.filter((user) => {
+    const matchName = !name || user.userName.toLowerCase().includes(name);
+
+    const matchEmail = !email || user.email.toLowerCase().includes(email);
+
+    const matchContact = !contact || user.contactNum.includes(contact);
+    const matchAge =
+      (!minAge || Number(user.userAge) <= Number(minAge)) &&
+      (!maxAge || Number(user.userAge) <= Number(maxAge));
+
+    const matchGender =
+      !gender || gender === "Choosegender" || user.gender === gender;
+
+    const matchCgpa =
+      (!minCgpa || Number(user.schoolCgpa) >= Number(minCgpa)) &&
+      (!maxCgpa || Number(user.schoolCgpa) <= Number(maxCgpa));
+
+    const lang =
+      selectedLanguages.length === 0 ||
+      selectedLanguages.some((lang) => user.languagesKnown.includes(lang));
+
+    return (
+      matchName &&
+      matchEmail &&
+      matchContact &&
+      matchGender &&
+      matchCgpa &&
+      matchAge &&
+      lang
+    );
+  });
+
+  renderTable(filteredUsers);
+}
