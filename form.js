@@ -73,17 +73,11 @@ let previousIndex = null;
 function pageonLoad() {
   if (!localStorage.getItem("hasRun")) {
     toSaveDefoultData();
-    console.log("Hii");
+    console.log("Defoult Data Saved");
     localStorage.setItem("hasRun", "true");
   }
 }
-function pageonLoad() {
-  if (!localStorage.getItem("hasRun")) {
-    toSaveDefoultData();
-    console.log("Hii");
-    localStorage.setItem("hasRun", "true");
-  }
-}
+
 function pageonLoad2() {
   let runCount = parseInt(localStorage.getItem("runCount") || "0");
 
@@ -379,7 +373,13 @@ function dropDown() {
  */
 function addRow(user) {
   const table = document.getElementById("user-table");
-  const newRow = table.insertRow(-1);
+  let tbody = table.querySelector("tbody");
+  if (!tbody) {
+    tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+  }
+
+  const newRow = tbody.insertRow(-1);
   newRow.insertCell(0).innerText = user.userName;
   newRow.insertCell(1).innerText = user.userAge;
   newRow.insertCell(2).innerText = user.gender;
@@ -389,10 +389,10 @@ function addRow(user) {
   newRow.insertCell(6).innerText = user.schoolCgpa;
   newRow.insertCell(7).innerText = user.userPassword;
   newRow.insertCell(8).innerText = user.primaryLanguage;
-  newRow.insertCell(9).innerText = user.languagesKnown;
-  newRow.insertCell(
-    10
-  ).innerHTML = `<a class="link" onClick="onEdit(this)">Edit</a>
+  newRow.insertCell(9).innerText = Array.isArray(user.languagesKnown)
+    ? user.languagesKnown.join(", ")
+    : user.languagesKnown;
+  newRow.insertCell(10).innerHTML = `<a class="link" onClick="onEdit(this)">Edit</a>
                        <a class="link" onClick="onDelete(this)">Delete</a>`;
 }
 // let users = JSON.parse(localStorage.getItem("users")) || [];
@@ -429,54 +429,7 @@ function addRow(user) {
 //   }
 // });
 
-// function addToTable() {
-//   const form = document.getElementById("reg-form");
-//   form.addEventListener("submit", function (event) {
-//     event.preventDefault();
-//   });
-//   const table = document.getElementById("user-table");
-//   const fullName = document.getElementById("user-name").value.trim();
-//   const emailId = document.getElementById("email-id").value.trim();
-//   const userGender = document.getElementById("user-gender").value;
-//   const contactNumber = document.getElementById("contact-number").value.trim();
-//   const schoolName = document.getElementById("school-name").value.trim();
-//   const Cgpa = document.getElementById("High-school-cgpa").value.trim();
-//   const Age = document.getElementById("user-age").value.trim();
-//   // const userPassword = document.getElementById("user-password").value.trim();
-//   // const userConfrimPass = document.getElementById("user-confirm-password").value.trim();
 
-//   // let storedData = JSON.parse(localStorage.getItem("users"))
-//   // console.log(storedData)
-//   // addRow()
-//   // const table = document.getElementById("user-table");
-//   // const newRow = table.insertRow(-1);
-//   // newRow.insertCell(0).innerText = storedData.userName;
-//   // newRow.insertCell(1).innerText = storedData.userAge;;
-//   // newRow.insertCell(2).innerText = storedData.gender;
-//   // newRow.insertCell(3).innerText = storedData.contactNum;
-//   // newRow.insertCell(4).innerText = storedData.email;
-//   // newRow.insertCell(5).innerText = storedData.school;
-//   // newRow.insertCell(6).innerText = storedData.schoolCgpa;
-
-//   const newRow = table.insertRow(-1);
-//   const cell1 = newRow.insertCell(0);
-//   const cell2 = newRow.insertCell(1);
-//   const cell3 = newRow.insertCell(2);
-//   const cell4 = newRow.insertCell(3);
-//   const cell5 = newRow.insertCell(4);
-//   const cell6 = newRow.insertCell(5);
-//   const cell7 = newRow.insertCell(6);
-
-//   // console.log(storedData.userName)
-
-//   cell1.innerHTML = fullName;
-//   cell2.innerHTML = Age;
-//   cell3.innerHTML = userGender;
-//   cell4.innerHTML = contactNumber;
-//   cell5.innerHTML = emailId;
-//   cell6.innerHTML = schoolName;
-//   cell7.innerHTML = Cgpa;
-// }
 
 function toSaveLocalStorage() {
   // const table = document.getElementById("user-table");
@@ -578,9 +531,7 @@ function toSaveDefoultData() {
   }
 
   localStorage.setItem("users", JSON.stringify(users));
-  //   }
-  //   pageLoad();
-  users.forEach((users) => addRow(users));
+  renderTable(users);
 }
 let formChanged = false;
 
@@ -828,7 +779,7 @@ function validatePrimaryLanguage() {
 
 function pageLoad() {
   const storedData = JSON.parse(localStorage.getItem("users")) || [];
-  storedData.forEach((users) => addRow(users));
+  renderTable(storedData);
   // localStorage.clear()
 }
 
@@ -841,10 +792,11 @@ function renderTable(users) {
   thead.innerHTML = `
     <tr>
       <th>Name</th>
-      <th>Email</th>
+      
       <th>Age</th>
       <th>Gender</th>
       <th>Contact Number</th>
+      <th>Email</th>
       <th>School Name</th>
       <th>CGPA</th>
       <th>Password</th>
@@ -860,11 +812,11 @@ function renderTable(users) {
   users.forEach((user) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${user.userName}</td>
-      <td>${user.email}</td>
+      <td>${user.userName}</td>      
       <td>${user.userAge}</td>
       <td>${user.gender}</td>
       <td>${user.contactNum}</td>
+      <td>${user.email}</td>
       <td>${user.school}</td>
       <td>${user.schoolCgpa}</td>
       <td>${user.userPassword}</td>
@@ -896,13 +848,13 @@ function applymultiColFilter() {
   renderTable(filteredMultiColU);
 }
 
-function getLanguagesKnown() {
+function getLanguages() {
   const languages = [];
 
-  if (document.getElementById("lang-en").checked) languages.push("English");
-  if (document.getElementById("lang-hi").checked) languages.push("Hindi");
-  if (document.getElementById("lang-gu").checked) languages.push("Gujarati");
-  if (document.getElementById("lang-mr").checked) languages.push("Marathi");
+  if (document.getElementById("filter-lang-en")?.checked) languages.push("English");
+  if (document.getElementById("filter-lang-hi")?.checked) languages.push("Hindi");
+  if (document.getElementById("filter-lang-gu")?.checked) languages.push("Gujarati");
+  if (document.getElementById("filter-lang-mr")?.checked) languages.push("Marathi");
 
   return languages;
 }
@@ -917,7 +869,7 @@ function applyFilters() {
   const maxCgpa = document.getElementById("max-value-cgpa")?.value;
   const maxAge = document.getElementById("max-age")?.value;
   const minAge = document.getElementById("min-age")?.value;
-  const selectedLanguages = getLanguagesKnown();
+  const selectedLanguages = getLanguages();
 
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -928,7 +880,7 @@ function applyFilters() {
 
     const matchContact = !contact || user.contactNum.includes(contact);
     const matchAge =
-      (!minAge || Number(user.userAge) <= Number(minAge)) &&
+      (!minAge || Number(user.userAge) >= Number(minAge)) &&
       (!maxAge || Number(user.userAge) <= Number(maxAge));
 
     const matchGender =
