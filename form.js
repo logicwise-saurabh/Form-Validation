@@ -713,10 +713,7 @@ function setPrimaryLanguage(value) {
     document.getElementById("lang-hi"),
     document.getElementById("lang-gu"),
   ];
-  // radios.filter();
-  // function radioCheck(){ radios[i].checked = radios[i].value === value;
 
-  // }
 
   for (let i = 0; i < radios.length; i++) {
     radios[i].checked = radios[i].value === value;
