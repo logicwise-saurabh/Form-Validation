@@ -392,7 +392,9 @@ function addRow(user) {
   newRow.insertCell(9).innerText = Array.isArray(user.languagesKnown)
     ? user.languagesKnown.join(", ")
     : user.languagesKnown;
-  newRow.insertCell(10).innerHTML = `<a class="link" onClick="onEdit(this)">Edit</a>
+  newRow.insertCell(
+    10
+  ).innerHTML = `<a class="link" onClick="onEdit(this)">Edit</a>
                        <a class="link" onClick="onDelete(this)">Delete</a>`;
 }
 // let users = JSON.parse(localStorage.getItem("users")) || [];
@@ -428,8 +430,6 @@ function addRow(user) {
 //     addRow(filteredUsers);
 //   }
 // });
-
-
 
 function toSaveLocalStorage() {
   // const table = document.getElementById("user-table");
@@ -714,7 +714,6 @@ function setPrimaryLanguage(value) {
     document.getElementById("lang-gu"),
   ];
 
-
   for (let i = 0; i < radios.length; i++) {
     radios[i].checked = radios[i].value === value;
   }
@@ -836,9 +835,9 @@ function applymultiColFilter() {
 
   const filteredMultiColU = users.filter((user) => {
     return (
-      user.userName.toLowerCase().includes(multiSearch) ||
-      user.email.toLowerCase().includes(multiSearch) ||
-      user.school.toLowerCase().includes(multiSearch)
+      user.userName.toLowerCase().includes(multiSearch.toLowerCase()) ||
+      user.email.toLowerCase().includes(multiSearch.toLowerCase()) ||
+      user.school.toLowerCase().includes(multiSearch.toLowerCase())
     );
   });
   console.log(filteredMultiColU);
@@ -848,10 +847,14 @@ function applymultiColFilter() {
 function getLanguages() {
   const languages = [];
 
-  if (document.getElementById("filter-lang-en")?.checked) languages.push("English");
-  if (document.getElementById("filter-lang-hi")?.checked) languages.push("Hindi");
-  if (document.getElementById("filter-lang-gu")?.checked) languages.push("Gujarati");
-  if (document.getElementById("filter-lang-mr")?.checked) languages.push("Marathi");
+  if (document.getElementById("filter-lang-en")?.checked)
+    languages.push("English");
+  if (document.getElementById("filter-lang-hi")?.checked)
+    languages.push("Hindi");
+  if (document.getElementById("filter-lang-gu")?.checked)
+    languages.push("Gujarati");
+  if (document.getElementById("filter-lang-mr")?.checked)
+    languages.push("Marathi");
 
   return languages;
 }
@@ -903,4 +906,50 @@ function applyFilters() {
   });
 
   renderTable(filteredUsers);
+}
+
+function debounce(func, delay = 300) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+const debounced = debounce(applymultiColFilter, 1000);
+const searchFilter = document.getElementById("search");
+// searchFilter.addEventListener("input", (e) => {
+//   debounced(e.target.value);
+//   console.log("search typed");
+// });
+
+function throtel(func, limit = 100) {
+  let lastRun = 0;
+  return (...args) => {
+    const now = Date.now();
+    if (now - lastRun >= limit) {
+      lastRun = now;
+      func(...args);
+    }
+  };
+}
+const throteldFilter = throtel(applyFilters, 300);
+
+function fakeStorageApi(key) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        const data = JSON.parse(localStorage.getItem(key)) || [];
+        resolve(data);
+      } catch {
+        reject(new Error("Corrupted storage"));
+      }
+    }, 1000);
+  });
+}
+
+async function getUser() {
+  const users = await fakeStorageApi("users");
+  console.log(users);
+  users.forEach((user) => console.log(user.userName));
 }
