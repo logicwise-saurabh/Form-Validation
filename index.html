@@ -211,7 +211,7 @@
           type="text"
           id="search"
           placeholder="Search Here"
-          onkeyup="applymultiColFilter()"
+          oninput="debounced()"
         />
         <!-- <input
           type="text"
@@ -228,7 +228,7 @@
           max="10"
           id="min-value-cgpa"
           placeholder="Minimum Value"
-          onkeyup="applyFilters()"
+          onkeyup="throteldFilter()"
         />
 
         <input
@@ -253,7 +253,7 @@
           name="gender"
           id="filter-gender"
           value="choose gender"
-          onchange="applyFilters()"
+          onchange="throteldFilter()"
         >
           <option value="Choosegender" selected>Select gender</option>
           <option id="male" value="male">Male</option>
@@ -340,7 +340,7 @@
         <tbody></tbody>
       </table>
 
-      <!-- <button onclick="filterTable()">Click</button> -->
+      <button onclick="getUser()">Click</button>
       <!-- <button onclick="toSaveDefoultData()">Shave Defoult data</button> -->
 
       <!-- <button onclick="isDuplicateEmail()">Show user</button> -->
